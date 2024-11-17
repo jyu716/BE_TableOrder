@@ -5,6 +5,7 @@ import org.example.tableorder.model.Review
 import org.example.tableorder.model.Store
 import org.example.tableorder.service.UserService
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -20,6 +21,7 @@ class UserController(private val userService: UserService){
 
     // 매장 예약 - 회원가입 필수
     @PostMapping("/stores/reservation")
+    @PreAuthorize("hasRole('USER')")
     fun reservationStore(@RequestParam(name = "storeId", required = false) storeId:Long, @RequestParam(name = "reserveDate", required = false)reserveDate: String): ResponseEntity<Reservation> {
         return ResponseEntity.ok(userService.reserveStore(storeId, reserveDate))
     }
